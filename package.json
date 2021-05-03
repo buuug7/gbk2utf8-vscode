@@ -1,12 +1,12 @@
 {
   "name": "GBK2UTF8",
   "displayName": "GBK to UTF8 for vscode",
-  "description": "convert file encode from gbk to utf8 for vscode",
+  "description": "Convert file encode from gbk to utf8 for vscode",
   "publisher": "buuug7",
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -29,7 +29,7 @@
   "activationEvents": [
     "onCommand:GBK_TO_UTF8.generate"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -39,10 +39,13 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "test-compile": "tsc -p ./",
+    "test-watch": "tsc -watch -p ./",
+    "pretest": "npm run test-compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
@@ -58,6 +61,9 @@
     "iconv-lite": "^0.6.2",
     "mocha": "^8.2.1",
     "typescript": "^4.1.3",
-    "vscode-test": "^1.5.0"
+    "vscode-test": "^1.5.0",
+    "ts-loader": "^8.0.14",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^4.4.0"
   }
 }

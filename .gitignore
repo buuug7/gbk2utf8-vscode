@@ -1,9 +1,9 @@
 node_modules
 out
+dist
 .vscode-test/
 *.vsix
 .idea
-.vscode
 
 # additional
 .DS_Store

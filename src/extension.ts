@@ -23,8 +23,10 @@ function changeFileEncode() {
         .pipe(fs.createWriteStream(newFileName));
 
       vscode.window.showInformationMessage(
-        `convert encode to utf8 and saved to ${fileName}`
+        `convert encode to utf8 and saved to ${fileName}.`
       );
+    } else {
+      vscode.window.showWarningMessage('the current file is not encode by gbk.')
     }
   }
 }
