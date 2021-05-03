@@ -1,0 +1,13 @@
+node_modules
+out
+.vscode-test/
+*.vsix
+.idea
+.vscode
+
+# additional
+.DS_Store
+Thumbs.db
+*.log
+.vscode-test
+
