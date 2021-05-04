@@ -21,21 +21,23 @@ export function activate(context: ExtensionContext) {
   const _ignoreExt = config.get<string>("ignoreFileExtensions");
   ignoreFileExtensions = _ignoreExt ? _ignoreExt.split(",") : [];
 
-  const convertCommand = commands.registerCommand("GBK2UTF8.convert", () => {
-    const editor = window.activeTextEditor;
+  context.subscriptions.push(
+    commands.registerCommand("GBK2UTF8.convert", () => {
+      const editor = window.activeTextEditor;
 
-    if (editor) {
-      const document = editor.document;
-      replaceEditorContent(document, true);
-    }
-  });
-  context.subscriptions.push(convertCommand);
+      if (editor) {
+        const document = editor.document;
+        replaceEditorContent(document, true);
+      }
+    })
+  );
 
   if (autoDetect) {
-    const suggestConvert = workspace.onDidOpenTextDocument((document) => {
-      replaceEditorContent(document, false).then((r) => {});
-    });
-    context.subscriptions.push(suggestConvert);
+    context.subscriptions.push(
+      workspace.onDidOpenTextDocument((document) => {
+        replaceEditorContent(document, false).then((r) => {});
+      })
+    );
   }
 }
 
