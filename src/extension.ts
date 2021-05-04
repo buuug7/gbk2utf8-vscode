@@ -10,8 +10,18 @@ import {
 import * as fs from "fs";
 import * as iconv from "iconv-lite";
 
+// auto detect file encoding with gbk
+let autoDetect = false;
+// ignore the specified file extensions, separated by comma
+let ignoreFileExtensions: string[] = [];
+
 export function activate(context: ExtensionContext) {
-  const convertCommand = commands.registerCommand("GBK_TO_UTF8.convert", () => {
+  const config = workspace.getConfiguration("GBK2UTF8");
+  autoDetect = config.get<boolean>("autoDetect") as boolean;
+  const _ignoreExt = config.get<string>("ignoreFileExtensions");
+  ignoreFileExtensions = _ignoreExt ? _ignoreExt.split(",") : [];
+
+  const convertCommand = commands.registerCommand("GBK2UTF8.convert", () => {
     const editor = window.activeTextEditor;
 
     if (editor) {
@@ -21,11 +31,14 @@ export function activate(context: ExtensionContext) {
   });
   context.subscriptions.push(convertCommand);
 
-  const suggestConvert = workspace.onDidOpenTextDocument((document) => {
-    replaceEditorContent(document, false);
-  });
-  context.subscriptions.push(suggestConvert);
+  if (autoDetect) {
+    const suggestConvert = workspace.onDidOpenTextDocument((document) => {
+      replaceEditorContent(document, false).then((r) => {});
+    });
+    context.subscriptions.push(suggestConvert);
+  }
 }
+
 export function deactivate() {}
 
 /**
@@ -52,8 +65,6 @@ function changeEncode(filePath: string): Promise<string> {
       reject("oops, something went wrong!");
     });
     reader.on("data", (buffer) => {
-      console.log("buffer:", buffer);
-
       chunks.push(buffer);
     });
     reader.on("end", () => {
@@ -75,13 +86,18 @@ async function replaceEditorContent(
 ) {
   console.log("autoConvert...");
   const text = document.getText();
+  const fileName = document.fileName;
 
   if (!isGBK(text)) {
     return;
   }
 
-  const message =
-    "It seems that the encode of file is GBK, do you want to convert the encoding to utf8?";
+  const fileExt = fileName.split(".").pop() || "";
+  if (ignoreFileExtensions.includes(fileExt)) {
+    return;
+  }
+
+  const message = `It seems that the encoding of **${fileName}** file is GBK, do you want to convert it to utf8?`;
   const yes = "Yes";
   const no = "No";
 
@@ -99,12 +115,13 @@ async function replaceEditorContent(
   };
 
   if (force) {
-    doReplaceWork();
-  } else {
-    window.showInformationMessage(message, yes, no).then((value) => {
-      if (value === yes) {
-        doReplaceWork();
-      }
-    });
+    await doReplaceWork();
+    return;
   }
+
+  window.showInformationMessage(message, yes, no).then((value) => {
+    if (value === yes) {
+      doReplaceWork();
+    }
+  });
 }

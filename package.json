@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -28,15 +28,33 @@
     "url": "https://github.com/buuug7/gbk2utf8-vscode/issues"
   },
   "activationEvents": [
-    "onCommand:GBK_TO_UTF8.convert",
+    "onCommand:GBK2UTF8.convert",
     "*"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "GBK_TO_UTF8.convert",
+        "command": "GBK2UTF8.convert",
         "title": "Convert encode to utf8"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "GBK2UTF8",
+        "type": "object",
+        "properties": {
+          "GBK2UTF8.autoDetect": {
+            "type": "boolean",
+            "default": true,
+            "description": "auto detect file encoding with gbk"
+          },
+          "GBK2UTF8.ignoreFileExtensions": {
+            "type": "string",
+            "default": "ts,vue",
+            "description": "ignore the specified file extensions, separated by comma"
+          }
+        }
       }
     ]
   },
