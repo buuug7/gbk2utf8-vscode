@@ -6,7 +6,7 @@ The vscode extension for convert the GBK encode to UTF8.
 
 ## Install
 
-Open VSCode and type `ctrl+P`, type `ext install buuug7.GBK2UTF8`， or search the market with **gbk, gbk utf8** keywords.
+Open VSCode and type `ctrl+P`, type `ext install buuug7.GBK2UTF8`, or search the market with **gbk, gbk utf8** keywords.
 
 ## Usage
 
