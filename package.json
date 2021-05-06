@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -36,7 +36,7 @@
     "commands": [
       {
         "command": "GBK2UTF8.convert",
-        "title": "Convert encode to utf8"
+        "title": "convert encode to utf8"
       }
     ],
     "configuration": [

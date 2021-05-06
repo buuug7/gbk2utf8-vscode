@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.4 - 2021/05/06
+
+- fix issue, update README.md
+
 ## 0.2.3 - 2021/05/05
 
 - fix, refactor

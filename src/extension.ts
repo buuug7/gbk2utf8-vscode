@@ -61,7 +61,7 @@ function changeEncode(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = fs
       .createReadStream(filePath)
-      .pipe(iconv.decodeStream("gbk")); // default to utf8
+      .pipe(iconv.decodeStream("GB18030")); // decode from GB18030 to utf8(default)
     const chunks: any[] = [];
     reader.on("error", (error) => {
       reject("oops, something went wrong!");
@@ -106,6 +106,7 @@ async function replaceEditorContent(
   const doReplaceWork = async () => {
     const fsPath = document.uri.fsPath;
     const content = await changeEncode(fsPath);
+    
     const editor = window.activeTextEditor;
     const startPosition = new Position(0, 0);
     const endPosition = new Position(document.lineCount, 0);
