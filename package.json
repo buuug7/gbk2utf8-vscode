@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -19,14 +19,6 @@
     "gbk utf8",
     "gbk to utf8"
   ],
-  "homepage": "https://github.com/buuug7/gbk2utf8-vscode/blob/main/README.md",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/buuug7/gbk2utf8-vscode.git"
-  },
-  "bugs": {
-    "url": "https://github.com/buuug7/gbk2utf8-vscode/issues"
-  },
   "activationEvents": [
     "onCommand:GBK2UTF8.convert",
     "*"
@@ -86,5 +78,13 @@
     "vscode-test": "^1.5.0",
     "webpack": "^5.19.0",
     "webpack-cli": "^4.4.0"
+  },
+  "homepage": "https://github.com/buuug7/gbk2utf8-vscode/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buuug7/gbk2utf8-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/buuug7/gbk2utf8-vscode/issues"
   }
 }

@@ -16,11 +16,15 @@ When you open the file with the GBK related(gbk, GB2312, GB18030) encode, it wil
 
 ## settings
 
-> please `reload the window` after the settings is changed, make sure the setting is activated in the vscode startup.
-
 - autoDetect
 - ignoreFileExtensions
 
 The `autoDetect` is set to `true` default, if you want to disable the autoDetect GBK files, set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
 The `ignoreFileExtensions` is set to `ts` default, if you want add more ignore file extensions, please set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+
+please `reload the window` after the settings is changed, make sure the setting is activated in the vscode startup.
+
+## contribution
+
+If you're interested in contributing to, fork the [repo](https://github.com/buuug7/gbk2utf8-vscode.git) and submit pull requests.
