@@ -1,15 +1,8 @@
 # Change Log
 
-## 0.2.5 - 2021/05/07
+## 0.2.9 - 2021/05/08
 
 - fix, update README.md
-
-## 0.2.3 - 2021/05/05
-
-- fix, refactor
-
-## 0.2.2 - 2021/05/04
-
 - update the extension icon
 
 ## 0.2.0 - 2021/05/04

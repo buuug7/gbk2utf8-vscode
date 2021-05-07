@@ -16,12 +16,21 @@ When you open the file with the GBK related(gbk, GB2312, GB18030) encode, it wil
 
 ## settings
 
-- autoDetect
-- ignoreFileExtensions
+The `GBK2UTF8.ignoreFileExtensions` is set to `true` default, if you want to disable the auto detect GBK files, set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
-The `autoDetect` is set to `true` default, if you want to disable the autoDetect GBK files, set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
+```javascript
+{
+    "GBK2UTF8.ignoreFileExtensions": true,
+}
+```
 
-The `ignoreFileExtensions` is set to `ts` default, if you want add more ignore file extensions, please set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+The `GBK2UTF8.ignoreFileExtensions` is set to `ts,vue` default, if you want add more ignore file extensions, please set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+
+```javascript
+{
+    "GBK2UTF8.ignoreFileExtensions": "ts,vue",
+}
+```
 
 please `reload the window` after the settings is changed, make sure the setting is activated in the vscode startup.
 
