@@ -1,6 +1,6 @@
 # GBK to UTF8 for vscode
 
-The vscode extension for convert the GBK encode to UTF8.
+The vscode extension for convert the GBK encoding to UTF8.
 
 一个用来把 GBK 编码文件转换为 UTF8 的 vscode 插件。
 
@@ -10,9 +10,9 @@ Open VSCode and type `ctrl+P`, type `ext install buuug7.GBK2UTF8`, or search the
 
 ## Usage
 
-When you open the file with the GBK related(gbk, GB2312, GB18030) encode, it will show a prompt dialog suggest you convert it. or you can manual convert it with the **convert encode to utf8** commander from the Command palette.
+When you open the file with the GBK related(gbk, GB2312, GB18030) encoding, it will show a prompt dialog suggest you convert it. or you can manual convert it with the **convert encoding to utf8** commander from the Command palette.
 
-当打开带有 GBK 相关(GBK, GB2312, GB18030) 编码文件的时候，会弹出一个提示对话框提示转换。或者你可以通过在命令面板中通过`convert encode to utf8`命令来手动转换。
+当打开带有 GBK 相关(GBK, GB2312, GB18030) 编码文件的时候，会弹出一个提示对话框提示转换。或者你可以通过在命令面板中通过`convert encoding to utf8`命令来手动转换。
 
 ## settings
 

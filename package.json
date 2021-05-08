@@ -1,12 +1,12 @@
 {
   "name": "GBK2UTF8",
   "displayName": "GBK to UTF8 for vscode",
-  "description": "Convert file encode from gbk to utf8 for vscode",
+  "description": "Convert file encoding from gbk to utf8 for vscode",
   "publisher": "buuug7",
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -28,7 +28,8 @@
     "commands": [
       {
         "command": "GBK2UTF8.convert",
-        "title": "convert encode to utf8"
+        "category": "GBK2UTF8",
+        "title": "Convert encoding to UTF8"
       }
     ],
     "configuration": [

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.12 - 2020/05/09
+
+- fix, update README.md
+
 ## 0.2.11 - 2021/05/08
 
 - fix, update README.md

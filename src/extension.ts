@@ -44,7 +44,7 @@ export function activate(context: ExtensionContext) {
 export function deactivate() {}
 
 /**
- * determine the text is gbk encode
+ * determine the text is gbk encoding
  * @param text
  * @returns
  */
@@ -77,7 +77,7 @@ function changeEncode(filePath: string): Promise<string> {
 }
 
 /**
- * replace the editor content with new encode content
+ * replace the editor content with new encoding content
  * @param document
  * @param force
  * @returns
@@ -86,16 +86,20 @@ async function replaceEditorContent(
   document: TextDocument,
   force: boolean = false
 ) {
-  console.log("autoConvert...");
   const text = document.getText();
   const fileName = document.fileName;
 
   if (!isGBK(text)) {
+    if (force) {
+      window.showWarningMessage(
+        "It seems that the file encoding is not GBK related."
+      );
+    }
     return;
   }
 
   const fileExt = fileName.split(".").pop() || "";
-  
+
   if (ignoreFileExtensions.includes(fileExt)) {
     return;
   }
@@ -107,14 +111,14 @@ async function replaceEditorContent(
   const doReplaceWork = async () => {
     const fsPath = document.uri.fsPath;
     const content = await changeEncode(fsPath);
-    
+
     const editor = window.activeTextEditor;
     const startPosition = new Position(0, 0);
     const endPosition = new Position(document.lineCount, 0);
     const range = new Range(startPosition, endPosition);
     editor?.edit((builder) => {
       builder.replace(range, content);
-      window.showInformationMessage("Successfully converted encode to UTF8");
+      window.showInformationMessage("Successfully converted encoding to UTF8");
     });
   };
 
