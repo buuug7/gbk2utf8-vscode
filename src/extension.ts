@@ -10,16 +10,22 @@ import {
 import * as fs from "fs";
 import * as iconv from "iconv-lite";
 
-// auto detect file encoding with gbk
+// Auto detect file encoding with GBK related.
 let autoDetect = false;
-// ignore the specified file extensions, separated by comma
-let ignoreFileExtensions: string[] = [];
+
+// Ignore the specified file extensions, separated by comma.
+let ignoreExtensions: string[] = [];
+
+// Ignore the specified directory, separated by comma.
+let ignoreDir: string[] = [];
 
 export function activate(context: ExtensionContext) {
   const config = workspace.getConfiguration("GBK2UTF8");
   autoDetect = config.get<boolean>("autoDetect") as boolean;
-  const _ignoreExt = config.get<string>("ignoreFileExtensions");
-  ignoreFileExtensions = _ignoreExt ? _ignoreExt.split(",") : [];
+  const _ignoreExt = config.get<string>("ignoreExtensions");
+  ignoreExtensions = _ignoreExt ? _ignoreExt.split(",") : [];
+  const _ignoreDir = config.get<string>("ignoreDir");
+  ignoreDir = _ignoreDir ? _ignoreDir.split(",") : [];
 
   context.subscriptions.push(
     commands.registerCommand("GBK2UTF8.convert", () => {
@@ -98,16 +104,22 @@ async function replaceEditorContent(
     return;
   }
 
-  const fileExt = fileName.split(".").pop() || "";
-
-  if (ignoreFileExtensions.includes(fileExt)) {
+  let dirIsIgnored = false;
+  for (let dir of ignoreDir) {
+    if (fileName.indexOf(dir) !== -1) {
+      dirIsIgnored = true;
+      break;
+    }
+  }
+  if (dirIsIgnored && !force) {
     return;
   }
 
-  const message = `It seems that the encoding of **${fileName}** file is GBK, do you want to convert it to utf8?`;
-  const yes = "Yes";
-  const no = "No";
-
+  const fileExt = fileName.split(".").pop() || "";
+  if (ignoreExtensions.includes(fileExt)) {
+    return;
+  }
+  const message = `It seems that the encoding of **${fileName}** file is GBK, do you want to convert it to UTF8?`;
   const doReplaceWork = async () => {
     const fsPath = document.uri.fsPath;
     const content = await changeEncode(fsPath);
@@ -127,8 +139,8 @@ async function replaceEditorContent(
     return;
   }
 
-  window.showInformationMessage(message, yes, no).then((value) => {
-    if (value === yes) {
+  window.showInformationMessage(message, "Yes", "No").then((value) => {
+    if (value === "Yes") {
       doReplaceWork();
     }
   });

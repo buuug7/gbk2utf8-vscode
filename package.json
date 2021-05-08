@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -40,12 +40,17 @@
           "GBK2UTF8.autoDetect": {
             "type": "boolean",
             "default": true,
-            "description": "auto detect file encoding with gbk"
+            "description": "Auto detect file encoding with GBK related."
           },
-          "GBK2UTF8.ignoreFileExtensions": {
+          "GBK2UTF8.ignoreExtensions": {
             "type": "string",
             "default": "git,ts,vue",
-            "description": "ignore the specified file extensions, separated by comma"
+            "description": "Ignore the specified file extensions, separated by comma."
+          },
+          "GBK2UTF8.ignoreDir": {
+            "type": "string",
+            "default":"node_modules,.vscode,.idea,.vscode-test,.github",
+            "description": "Ignore the specified directory, separated by comma."
           }
         }
       }

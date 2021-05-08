@@ -24,11 +24,19 @@ The `GBK2UTF8.autoDetect` is set to `true` default, if you want to disable the a
 }
 ```
 
-The `GBK2UTF8.ignoreFileExtensions` is set to `git,ts,vue` default, if you want add more ignore file extensions, please set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+The `GBK2UTF8.ignoreExtensions` is set to `git,ts,vue` default, if you want add more ignore file extensions, please set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
 ```javascript
 {
-    "GBK2UTF8.ignoreFileExtensions": "git,ts,vue",
+    "GBK2UTF8.ignoreExtensions": "git,ts,vue",
+}
+```
+
+The `GBK2UTF8.ignoreDir` is set to `node_modules,.vscode,.idea,.vscode-test,.github` default, if you want add more ignore directory, set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+
+```javascript
+{
+    "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github",
 }
 ```
 
