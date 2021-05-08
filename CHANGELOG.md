@@ -1,9 +1,10 @@
 # Change Log
 
-## 0.2.9 - 2021/05/08
+## 0.2.10 - 2021/05/08
 
 - fix, update README.md
 - update the extension icon
+- fix the issue of ignoreFileExtensions not work
 
 ## 0.2.0 - 2021/05/04
 

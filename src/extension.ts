@@ -94,7 +94,8 @@ async function replaceEditorContent(
     return;
   }
 
-  const fileExt = fileName.split(",").pop() || "";
+  const fileExt = fileName.split(".").pop() || "";
+  
   if (ignoreFileExtensions.includes(fileExt)) {
     return;
   }
