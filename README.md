@@ -16,11 +16,11 @@ When you open the file with the GBK related(gbk, GB2312, GB18030) encode, it wil
 
 ## settings
 
-The `GBK2UTF8.ignoreFileExtensions` is set to `true` default, if you want to disable the auto detect GBK files, set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
+The `GBK2UTF8.autoDetect` is set to `true` default, if you want to disable the auto detect GBK files, set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
 ```javascript
 {
-    "GBK2UTF8.ignoreFileExtensions": true,
+    "GBK2UTF8.autoDetect": true,
 }
 ```
 
