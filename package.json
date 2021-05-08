@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -43,7 +43,7 @@
           },
           "GBK2UTF8.ignoreFileExtensions": {
             "type": "string",
-            "default": "ts,vue",
+            "default": "git,ts,vue",
             "description": "ignore the specified file extensions, separated by comma"
           }
         }
