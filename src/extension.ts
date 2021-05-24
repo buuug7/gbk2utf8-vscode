@@ -33,7 +33,7 @@ export function activate(context: ExtensionContext) {
 
       if (editor) {
         const document = editor.document;
-        replaceEditorContent(document, true);
+        replaceEditorContent(document, true).then(r => {});
       }
     })
   );
@@ -120,7 +120,7 @@ async function replaceEditorContent(
     return;
   }
   const message = `It seems that the encoding of **${fileName}** file is GBK, do you want to convert it to UTF8?`;
-  const doReplaceWork = async () => {
+  const replaceContent = async () => {
     const fsPath = document.uri.fsPath;
     const content = await changeEncode(fsPath);
 
@@ -135,13 +135,13 @@ async function replaceEditorContent(
   };
 
   if (force) {
-    await doReplaceWork();
+    await replaceContent();
     return;
   }
 
   window.showInformationMessage(message, "Yes", "No").then((value) => {
     if (value === "Yes") {
-      doReplaceWork();
+      replaceContent();
     }
   });
 }
