@@ -1,5 +1,9 @@
 # GBK to UTF8 for vscode
 
+[![version](https://vsmarketplacebadge.apphb.com/version-short/buuug7.gbk2utf8.svg?label=%20&style=flat-square&color=42b883)](https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8)
+[![download](https://vsmarketplacebadge.apphb.com/installs-short/buuug7.gbk2utf8.svg?label=%20&style=flat-square&color=35495e)](https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8)
+[![download](https://vsmarketplacebadge.apphb.com/rating-short/buuug7.gbk2utf8.svg?label=%20&style=flat-square&color=35495e)](https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8)
+
 The vscode extension for convert the GBK related encoding to UTF8.
 
 一个用来把 GBK 相关编码文件转换为 UTF8 的 vscode 插件。

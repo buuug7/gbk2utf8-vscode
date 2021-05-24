@@ -49,7 +49,7 @@
           },
           "GBK2UTF8.ignoreDir": {
             "type": "string",
-            "default":"node_modules,.vscode,.idea,.vscode-test,.github",
+            "default": "node_modules,.vscode,.idea,.vscode-test,.github",
             "description": "Ignore the specified directory, separated by comma."
           }
         }
