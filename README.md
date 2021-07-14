@@ -12,23 +12,45 @@
     </a>
 </p>
 
-The vscode extension for convert the GBK related encoding to UTF8.
+The vscode extension for convert the GBK related encoding to UTF8. have the feature of batch convert file encoding.
 
-一个用来把 GBK 相关编码文件转换为 UTF8 的 vscode 插件。
-
-## Usage
-
-When open the file with the GBK related(gbk, GB2312, GB18030) encoding from vscode, it will show a prompt dialog in the
-right bottom corner suggest you convert it. or you can manual convert it with the **Convert encoding to UTF8** commander
-from the Command palette.
-
-当从 vscode 中打开带有 GBK 相关(GBK, GB2312, GB18030) 编码文件的时候, 在右下角会自动弹出提示对话框提示转换. 或者你可以在命令面板中通过**Convert encoding to UTF8**
-命令手动转换。
+一个用来把 GBK 相关编码文件转换为 UTF8 的 vscode 插件。具有批量转换文件编码的功能。
 
 ## Install
 
 Open vscode and type `ctrl + p`, type `ext install buuug7.GBK2UTF8`, or search the extensions market with **gbk, gbk
 utf8** keywords.
+
+## Usage
+
+When open the file with the GBK related(GB2312, GB18030, ...) encoding from vscode, it will show a prompt dialog suggest to convert it.
+
+当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示对话框提示转换.
+
+Or you can manual convert it with the **Convert encoding to UTF8** commander from the Command palette.
+
+或者你可以在命令面板中通过**Convert encoding to UTF8**命令手动转换。
+
+Also you can selected single file or multiply files in the left file explore tree, right click and select the **Batch Convert encoding to UTF8** item from context.
+
+也可以在左侧的文件浏览树中选择单个文件或多个文件，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项。
+
+## How to Batch convert file encoding to UTF8
+
+Selected multiply files in the left file explore tree, right click and select the **Convert encoding to UTF8** item from context.
+
+批量转换文件编码，选中左侧文件浏览树中的多个文件，右键单击并从上下文中选择**批量转换编码为 UTF8**选项。
+
+## Support Charset
+
+The detect encoding is use the library of [jschardet](https://github.com/aadsm/jschardet), support traditional and simplified Chinese encoding below.
+
+- `Big5`
+- `GB2312`
+- `GB18030`
+- `EUC-TW`
+- `HZ-GB-2312`
+- `ISO-2022-CN`
 
 ## settings
 
@@ -37,9 +59,7 @@ set `false` in the user and workspace settings under Extensions -> GBK2UTF8 sect
 
 ```javascript
 {
-  "GBK2UTF8.autoDetect"
-:
-  true,
+  "GBK2UTF8.autoDetect": true,
 }
 ```
 
@@ -48,9 +68,7 @@ it separated by comma in the user and workspace settings under Extensions -> GBK
 
 ```javascript
 {
-  "GBK2UTF8.ignoreExtensions"
-:
-  "git,ts,vue",
+  "GBK2UTF8.ignoreExtensions": "git,ts,vue",
 }
 ```
 
@@ -59,9 +77,7 @@ ignore directory, set it separated by comma in the user and workspace settings u
 
 ```javascript
 {
-  "GBK2UTF8.ignoreDir"
-:
-  "node_modules,.vscode,.idea,.vscode-test,.github",
+  "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github",
 }
 ```
 

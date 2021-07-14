@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "engines": {
     "vscode": "^1.55.0"
   },
@@ -20,9 +20,19 @@
     "gbk to utf8"
   ],
   "activationEvents": [
-    "onCommand:GBK2UTF8.convert",
-    "*"
+    "onStartupFinished"
   ],
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "test-compile": "tsc -p ./",
+    "test-watch": "tsc -watch -p ./",
+    "pretest": "npm run test-compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -32,6 +42,15 @@
         "title": "Convert encoding to UTF8"
       }
     ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "!explorerResourceIsFolder",
+          "group": "GBK2UTF8",
+          "command": "GBK2UTF8.convert"
+        }
+      ]
+    },
     "configuration": [
       {
         "title": "GBK2UTF8",
@@ -56,16 +75,8 @@
       }
     ]
   },
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "test-compile": "tsc -p ./",
-    "test-watch": "tsc -watch -p ./",
-    "pretest": "npm run test-compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+  "dependencies": {
+    "jschardet": "^3.0.0"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",

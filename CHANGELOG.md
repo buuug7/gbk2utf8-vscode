@@ -1,11 +1,16 @@
 # Change Log
 
-## 0.3.1 -2020/05/10
+## 0.4.0 - 2020/07/15
+
+- add batch convert
+- use the [jschardet](https://github.com/aadsm/jschardet) detect file encoding
+
+## 0.3.1 -2021/05/10
 
 - fix
 - update README.md
 
-## 0.3.0 - 2020/05/09
+## 0.3.0 - 2021/05/09
 
 - add ignoreDir setting
 

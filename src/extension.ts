@@ -1,61 +1,79 @@
-import {
-  commands,
-  workspace,
-  window,
-  Position,
-  Range,
-  TextDocument,
-  ExtensionContext,
-} from "vscode";
+import { commands, workspace, window, ExtensionContext, Uri } from "vscode";
 import * as fs from "fs";
 import * as iconv from "iconv-lite";
+import * as jschardet from "jschardet";
+import { config, getUserConfig } from "./config";
 
-// Auto detect file encoding with GBK related.
-let autoDetect = false;
+let defaultConfig = config;
 
-// Ignore the specified file extensions, separated by comma.
-let ignoreExtensions: string[] = [];
-
-// Ignore the specified directory, separated by comma.
-let ignoreDir: string[] = [];
+export function deactivate() {}
 
 export function activate(context: ExtensionContext) {
-  const config = workspace.getConfiguration("GBK2UTF8");
-  autoDetect = config.get<boolean>("autoDetect") as boolean;
-  const _ignoreExt = config.get<string>("ignoreExtensions");
-  ignoreExtensions = _ignoreExt ? _ignoreExt.split(",") : [];
-  const _ignoreDir = config.get<string>("ignoreDir");
-  ignoreDir = _ignoreDir ? _ignoreDir.split(",") : [];
+  defaultConfig = { ...defaultConfig, ...getUserConfig() };
 
   context.subscriptions.push(
-    commands.registerCommand("GBK2UTF8.convert", () => {
-      const editor = window.activeTextEditor;
-
-      if (editor) {
-        const document = editor.document;
-        replaceEditorContent(document, true).then(r => {});
-      }
-    })
+    commands.registerCommand("GBK2UTF8.convert", convert)
   );
 
-  if (autoDetect) {
+  if (defaultConfig.autoDetect) {
     context.subscriptions.push(
       workspace.onDidOpenTextDocument((document) => {
-        replaceEditorContent(document, false).then((r) => {});
+        replaceContent(document.uri, false).then((r) => {});
       })
     );
   }
 }
 
-export function deactivate() {}
+async function convert(clickedFile: any, selectedFiles: any) {
+  const editor = window.activeTextEditor;
+  const tasks = [];
+
+  if (!selectedFiles && editor) {
+    tasks.push(replaceContent(editor.document.uri, true));
+  }
+
+  if (selectedFiles && selectedFiles.length) {
+    let fileList = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const item = selectedFiles[i];
+      const uri = Uri.file(item.fsPath);
+      tasks.push(replaceContent(uri, true));
+      fileList.push(item.fsPath);
+    }
+
+    // show result file
+    if (workspace.workspaceFolders) {
+      let writeContent = `Process File List(${selectedFiles.length}): \n\n`;
+      writeContent += fileList.join("\n");
+
+      const rootFolder = workspace.workspaceFolders[0];
+      const fileName = `result-${Math.floor(Math.random() * 100000)}.txt`;
+      const filePath = rootFolder.uri.fsPath + `/${fileName}`;
+      fs.writeFileSync(filePath, writeContent);
+
+      const doc = await workspace.openTextDocument(filePath);
+      await window.showTextDocument(doc);
+    }
+  }
+
+  return Promise.all(tasks);
+}
 
 /**
- * determine the text is gbk encoding
- * @param text
- * @returns
+ * detect file encoding
+ * @param fsPath
  */
-function isGBK(text: string) {
-  return text.indexOf("�") !== -1;
+function detectEncoding(fsPath: string) {
+  const sampleSize = 512;
+  const sample = Buffer.alloc(sampleSize);
+  const fd = fs.openSync(fsPath, "r");
+
+  fs.readSync(fd, sample, 0, sampleSize, null);
+  fs.closeSync(fd);
+  const detectedEncoding = jschardet.detect(sample);
+  // console.log(detectedEncoding);
+  return detectedEncoding;
 }
 
 /**
@@ -63,11 +81,14 @@ function isGBK(text: string) {
  * @param filePath the file path
  * @returns Promise<string>
  */
-function changeEncode(filePath: string): Promise<string> {
+function reEncodingContent(
+  filePath: string,
+  encoding: string
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = fs
       .createReadStream(filePath)
-      .pipe(iconv.decodeStream("GB18030")); // decode from GB18030 to utf8(default)
+      .pipe(iconv.decodeStream(encoding));
     const chunks: any[] = [];
     reader.on("error", (error) => {
       reject("oops, something went wrong!");
@@ -88,25 +109,21 @@ function changeEncode(filePath: string): Promise<string> {
  * @param force
  * @returns
  */
-async function replaceEditorContent(
-  document: TextDocument,
-  force: boolean = false
-) {
-  const text = document.getText();
-  const fileName = document.fileName;
+async function replaceContent(uri: Uri, force: boolean = false) {
+  const fsPath = uri.fsPath;
+  const { encoding } = detectEncoding(fsPath);
 
-  if (!isGBK(text)) {
+  if (config.neededConvertCharset.indexOf(encoding) === -1) {
     if (force) {
-      window.showWarningMessage(
-        "It seems that the file encoding is not GBK related."
-      );
+      const message = `It seems that the file encoding(${encoding}) is not GBK related.`;
+      window.showWarningMessage(message);
     }
     return;
   }
 
   let dirIsIgnored = false;
-  for (let dir of ignoreDir) {
-    if (fileName.indexOf(dir) !== -1) {
+  for (let dir of defaultConfig.ignoreDir) {
+    if (fsPath.indexOf(dir) !== -1) {
       dirIsIgnored = true;
       break;
     }
@@ -115,23 +132,25 @@ async function replaceEditorContent(
     return;
   }
 
-  const fileExt = fileName.split(".").pop() || "";
-  if (ignoreExtensions.includes(fileExt)) {
+  const fileExt = fsPath.split(".").pop() || "";
+  const fileName = uri.path.split("/").pop();
+
+  if (defaultConfig.ignoreExtensions.includes(fileExt)) {
     return;
   }
-  const message = `It seems that the encoding of **${fileName}** file is GBK, do you want to convert it to UTF8?`;
+  const message = `It seems that the encoding of **${fileName}** is ${encoding}, do you want to convert it to UTF8?`;
   const replaceContent = async () => {
-    const fsPath = document.uri.fsPath;
-    const content = await changeEncode(fsPath);
+    const content = await reEncodingContent(fsPath, encoding);
 
-    const editor = window.activeTextEditor;
-    const startPosition = new Position(0, 0);
-    const endPosition = new Position(document.lineCount, 0);
-    const range = new Range(startPosition, endPosition);
-    editor?.edit((builder) => {
-      builder.replace(range, content);
-      window.showInformationMessage("Successfully converted encoding to UTF8");
-    });
+    // const lineCount = content.split("\n").length;
+    // const doc = await workspace.openTextDocument(uri);
+    // const editor = await window.showTextDocument(doc);
+    // editor.edit((text) => {
+    //   text.replace(new Range(0, 0, lineCount, 0), content);
+    // });
+
+    // fs.writeFileSync(fsPath, content);
+    await workspace.fs.writeFile(uri, Buffer.from(content));
   };
 
   if (force) {
