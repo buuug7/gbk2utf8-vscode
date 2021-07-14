@@ -12,9 +12,9 @@
     </a>
 </p>
 
-The vscode extension for convert the GBK related encoding to UTF8. have the feature of batch convert file encoding.
-
 一个用来把 GBK 相关编码文件转换为 UTF8 的 vscode 插件。具有批量转换文件编码的功能。
+
+The vscode extension for convert the GBK related encoding to UTF8. have the feature of batch convert file encoding.
 
 ## Install
 
@@ -23,27 +23,27 @@ utf8** keywords.
 
 ## Usage
 
-When open the file with the GBK related(GB2312, GB18030, ...) encoding from vscode, it will show a prompt dialog suggest to convert it.
+当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示对话框提示转换. 或者你可以在命令面板中通过**Convert encoding to UTF8**命令手动转换。
 
-当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示对话框提示转换.
+你也可以在左侧的文件浏览树中选择单个文件或多个文件，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项。
 
-Or you can manual convert it with the **Convert encoding to UTF8** commander from the Command palette.
+When open the file with the GBK related(GB2312, GB18030, ...) encoding from vscode, it will show a prompt dialog suggest
+converting it. Or you can be manual convert it with the **Convert encoding to UTF8** commander from the Command palette.
 
-或者你可以在命令面板中通过**Convert encoding to UTF8**命令手动转换。
-
-Also you can selected single file or multiply files in the left file explore tree, right click and select the **Batch Convert encoding to UTF8** item from context.
-
-也可以在左侧的文件浏览树中选择单个文件或多个文件，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项。
+Also, you can select single file or multiply files in the left file explore tree, right click and select the **Batch
+Convert encoding to UTF8** item from context.
 
 ## How to Batch convert file encoding to UTF8
 
-Selected multiply files in the left file explore tree, right click and select the **Convert encoding to UTF8** item from context.
-
 批量转换文件编码，选中左侧文件浏览树中的多个文件，右键单击并从上下文中选择**批量转换编码为 UTF8**选项。
+
+Selected multiply files in the left file explore tree, right click and select the **Convert encoding to UTF8** item from
+context.
 
 ## Support Charset
 
-The detect encoding is use the library of [jschardet](https://github.com/aadsm/jschardet), support traditional and simplified Chinese encoding below.
+The detected encoding is use the library of [jschardet](https://github.com/aadsm/jschardet), support traditional and
+simplified Chinese encoding below.
 
 - `Big5`
 - `GB2312`
@@ -52,38 +52,38 @@ The detect encoding is use the library of [jschardet](https://github.com/aadsm/j
 - `HZ-GB-2312`
 - `ISO-2022-CN`
 
-## settings
+## Settings
 
 The `GBK2UTF8.autoDetect` is set to `true` default, if you want to disable the auto detect GBK related files,
 set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
-```javascript
+```json
 {
-  "GBK2UTF8.autoDetect": true,
+  "GBK2UTF8.autoDetect": true
 }
 ```
 
 The `GBK2UTF8.ignoreExtensions` is set to `git,ts,vue` default, if you want add more ignore file extensions, please set
 it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
-```javascript
+```json
 {
-  "GBK2UTF8.ignoreExtensions": "git,ts,vue",
+  "GBK2UTF8.ignoreExtensions": "git,ts,vue"
 }
 ```
 
 The `GBK2UTF8.ignoreDir` is set to `node_modules,.vscode,.idea,.vscode-test,.github` default, if you want add more
 ignore directory, set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
 
-```javascript
+```json
 {
-  "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github",
+  "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github"
 }
 ```
 
-please `reload the window` after the settings is changed, make sure the setting is activated in the vscode startup.
+please `reload the window` after the settings is being change, make sure the setting tack effect in the vscode startup.
 
-## contribution
+## Contribution
 
 If you're interested in contributing to, fork the [repo](https://github.com/buuug7/gbk2utf8-vscode.git) and submit pull
 requests.

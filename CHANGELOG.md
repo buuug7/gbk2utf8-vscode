@@ -1,8 +1,14 @@
 # Change Log
 
+## 0.5.0 - 2020/07/16
+
+- add convert result report file
+- refactor code
+- update dependencies
+
 ## 0.4.0 - 2020/07/15
 
-- add batch convert
+- add feature of batch convert
 - use the [jschardet](https://github.com/aadsm/jschardet) detect file encoding
 
 ## 0.3.1 -2021/05/10
