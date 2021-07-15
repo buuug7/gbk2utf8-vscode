@@ -45,7 +45,6 @@
     "menus": {
       "explorer/context": [
         {
-          "when": "!explorerResourceIsFolder",
           "group": "GBK2UTF8",
           "command": "GBK2UTF8.convert"
         }

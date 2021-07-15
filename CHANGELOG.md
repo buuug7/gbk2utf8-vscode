@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.1 - 2020/07/16
+
+- add batch convert support directory(not nested directory)
+
 ## 0.5.0 - 2020/07/16
 
 - add convert result report file

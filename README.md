@@ -23,21 +23,21 @@ utf8** keywords.
 
 ## Usage
 
-当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示对话框提示转换. 或者你可以在命令面板中通过**Convert encoding to UTF8**命令手动转换。
+当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示对话框提示转换. 或者你可以在命令面板中通过 **Convert encoding to UTF8** 命令手动转换。
 
-你也可以在左侧的文件浏览树中选择单个文件或多个文件，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项。
+或者你可以批量转换文件编码，选中左侧文件浏览树中的多个文件, 或者选择文件夹(不支持嵌套文件夹)，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项。
 
 When open the file with the GBK related(GB2312, GB18030, ...) encoding from vscode, it will show a prompt dialog suggest
 converting it. Or you can be manual convert it with the **Convert encoding to UTF8** commander from the Command palette.
 
-Also, you can select single file or multiply files in the left file explore tree, right click and select the **Batch
-Convert encoding to UTF8** item from context.
+Also, you can selected multiply files in the left file explore tree, or select folder(not support nested folder), right click and select the **Convert encoding to UTF8** item from
+context.
 
 ## How to Batch convert file encoding to UTF8
 
-批量转换文件编码，选中左侧文件浏览树中的多个文件，右键单击并从上下文中选择**批量转换编码为 UTF8**选项。
+批量转换文件编码，选中左侧文件浏览树中的多个文件, 或者选择文件夹(不支持嵌套文件夹)，右键单击并从上下文中选择**批量转换编码为 UTF8**选项。
 
-Selected multiply files in the left file explore tree, right click and select the **Convert encoding to UTF8** item from
+Selected multiply files in the left file explore tree, or select folder(not support nested folder), right click and select the **Convert encoding to UTF8** item from
 context.
 
 ## Support Charset

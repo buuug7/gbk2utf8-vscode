@@ -7,6 +7,7 @@ import {
   ProgressLocation,
 } from "vscode";
 import * as fs from "fs";
+import * as path from "path";
 import * as iconv from "iconv-lite";
 import * as jschardet from "jschardet";
 import { config, getUserConfig } from "./config";
@@ -41,9 +42,28 @@ async function convert(clickedFile: any, selectedFiles: any, progress?: any) {
   }
 
   if (selectedFiles && selectedFiles.length) {
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const item = selectedFiles[i];
-      const uri = Uri.file(item.fsPath);
+    const firstSelected = selectedFiles[0];
+    const isDirectory = fs.statSync(firstSelected.fsPath).isDirectory();
+    const filePaths = [];
+
+    if (isDirectory) {
+      const files = fs.readdirSync(firstSelected.fsPath);
+      for (const fileName of files) {
+        const itemPath = path.resolve(firstSelected.fsPath, fileName);
+        const itemIsFile = fs.statSync(itemPath).isFile();
+        if (itemIsFile) {
+          filePaths.push(itemPath);
+        }
+      }
+    } else {
+      for (const item of selectedFiles) {
+        filePaths.push(item.fsPath);
+      }
+    }
+
+    for (let i = 0; i < filePaths.length; i++) {
+      const item = filePaths[i];
+      const uri = Uri.file(item);
       tasks.push(replaceContent(uri, true, progress));
     }
   }
@@ -166,7 +186,7 @@ function convertWithProgress(clickedFile: any, selectedFiles: any) {
   window.withProgress(options, async (progress) => {
     progress.report({ message: "start convert..." });
     const result = await convert(clickedFile, selectedFiles, progress);
-    await writeLogFile(result, selectedFiles.length);
+    await writeLogFile(result);
   });
 }
 
@@ -177,12 +197,12 @@ type LogItem = {
   change: boolean;
 };
 
-async function writeLogFile(result: LogItem[], count: number) {
+async function writeLogFile(result: LogItem[]) {
   if (workspace.workspaceFolders) {
     const convertedList = result.filter((it) => it.change);
     const notConvertList = result.filter((it) => !it.change);
 
-    let writeContent = `# Process result (${count})\n`;
+    let writeContent = `# Process result (${result.length})\n`;
     writeContent += `\n> item format: [encoding/confidence][file path]\n`;
 
     writeContent += `\n## Converted (${convertedList.length})\n\n`;
