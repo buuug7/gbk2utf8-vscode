@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.6.0 - 2020/07/17
+
+- update batch encoding support nested folders
+- add `showBatchReport` setting, when batch convert encoding, show convert report result.
+
 ## 0.5.1 - 2020/07/16
 
 - add batch convert support directory(not nested directory)

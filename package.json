@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "engines": {
     "vscode": "^1.58.0"
   },
@@ -69,6 +69,11 @@
             "type": "string",
             "default": "node_modules,.vscode,.idea,.vscode-test,.github",
             "description": "Ignore the specified directory, separated by comma."
+          },
+          "GBK2UTF8.showBatchReport": {
+            "type": "boolean",
+            "default": true,
+            "description": "When batch convert encoding, show convert report result."
           }
         }
       }
