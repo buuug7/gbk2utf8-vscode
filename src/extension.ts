@@ -118,7 +118,6 @@ function reEncodingContent(filePath: string, encoding: string): Promise<string> 
  */
 async function replaceContent(uri: Uri, force: boolean = false, progress?: any) {
   defaultConfig = getUserConfig();
-
   const fsPath = uri.fsPath;
   let { encoding, confidence } = detectEncoding(fsPath);
   confidence = Number(confidence.toFixed(2));
@@ -139,12 +138,14 @@ async function replaceContent(uri: Uri, force: boolean = false, progress?: any) 
   }
 
   let dirIsIgnored = false;
+
   for (let dir of defaultConfig.ignoreDir) {
     if (fsPath.indexOf(dir) !== -1) {
       dirIsIgnored = true;
       break;
     }
   }
+
   if (dirIsIgnored && !force) {
     return notChangedReturn;
   }
@@ -206,7 +207,6 @@ async function writeLogFile(result: LogItem[]) {
 
     let writeContent = `# Process result (${result.length})\n`;
     writeContent += `\n> item format: [encoding/confidence][file path]\n`;
-
     writeContent += `\n## Converted (${convertedList.length})\n\n`;
 
     const template = (item: LogItem) => `- \`[${item.encoding}/${item.confidence}]\` \`${item.uri.fsPath}\`\n`;
