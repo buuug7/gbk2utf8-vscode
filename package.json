@@ -3,7 +3,7 @@
   "displayName": "GBK to UTF8 for vscode",
   "description": "Convert file encoding from gbk to utf8 for vscode",
   "publisher": "buuug7",
-  "icon": "icon.png",
+  "icon": "media/icon-circle.png",
   "author": "buuug7",
   "license": "MIT",
   "version": "0.6.2",
