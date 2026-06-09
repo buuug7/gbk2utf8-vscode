@@ -37,7 +37,7 @@ async function convertWithProgress(
   await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      cancellable: true,
+      // cancellable: true,
       title: "Convert",
     },
     async (progress) => {
