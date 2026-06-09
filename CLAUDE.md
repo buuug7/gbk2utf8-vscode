@@ -53,23 +53,34 @@ vsce package          # create .vsix file
 
 ```
 src/
-├── extension.ts      # Main extension entry: activate/deactivate, convert logic
-├── config.ts         # Config type definition and getUserConfig()
+├── extension.ts              # Thin activation entry point
+├── config.ts                 # Config type definition and getUserConfig()
+├── constants.ts              # Shared constants
+├── types.ts                  # Shared type/interface definitions
+├── commands/
+│   └── convertCommand.ts     # Command registration + progress + orchestration
+├── services/
+│   ├── encodingDetector.ts   # Encoding detection via jschardet (async)
+│   ├── converter.ts          # File conversion via iconv-lite stream
+│   └── fileCollector.ts      # Directory walk + ignore rules
+├── utils/
+│   └── reportWriter.ts       # Batch conversion report generation
 └── test/
-    ├── runTest.ts    # Test runner entry
+    ├── runTest.ts            # Test runner entry
     └── suite/
-        ├── index.ts  # Mocha test index
-        └── extension.test.ts  # Extension tests
+        ├── index.ts          # Mocha test index
+        └── extension.test.ts # Extension tests
+```
 ```
 
 ### Key Functions
 
-- **`activate(context)`** — registers `GBK2UTF8.convert` command; if `autoDetect` is enabled, hooks `onDidOpenTextDocument` for auto-conversion
-- **`convert(clickedFile, selectedFiles, progress)`** — handles single and batch conversion (recursively walks directories)
-- **`replaceContent(uri, force, progress)`** — detects encoding via jschardet, prompts user (unless `force`), converts via iconv-lite, writes back
-- **`detectEncoding(fsPath)`** — reads first 512 bytes and uses jschardet to detect encoding
-- **`reEncodingContent(filePath, encoding)`** — streams file through iconv-lite decoder, returns decoded string
-- **`writeLogFile(result)`** — generates a Markdown report after batch conversion
+- **`activate(context)`** ([src/extension.ts](src/extension.ts)) — registers `GBK2UTF8.convert` command; if `autoDetect` is enabled, hooks `onDidOpenTextDocument` for auto-conversion
+- **`registerConvertCommand(context)`** ([src/commands/convertCommand.ts](src/commands/convertCommand.ts)) — registers the command with VS Code, wraps conversion in progress dialog, coordinates detect → convert → report pipeline
+- **`collectFiles(clickedFile, selectedFiles, config)`** ([src/services/fileCollector.ts](src/services/fileCollector.ts)) — collects files from selection/editor, recursively walks directories, applies ignore rules
+- **`detectEncoding(filePath)`** ([src/services/encodingDetector.ts](src/services/encodingDetector.ts)) — reads first 512 bytes via async I/O and uses jschardet to detect encoding
+- **`convertToUtf8(filePath, encoding)`** ([src/services/converter.ts](src/services/converter.ts)) — streams file through iconv-lite decoder, returns UTF-8 string
+- **`writeReport(results, rootUri)`** ([src/utils/reportWriter.ts](src/utils/reportWriter.ts)) — generates a timestamped Markdown report after batch conversion
 
 ## Configuration
 

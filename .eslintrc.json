@@ -10,6 +10,7 @@
     ],
     "rules": {
         "@typescript-eslint/naming-convention": "warn",
+        "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/semi": "warn",
         "curly": "warn",
         "eqeqeq": "warn",
@@ -17,6 +18,7 @@
         "semi": "off"
     },
     "ignorePatterns": [
-        "**/*.d.ts"
+        "**/*.d.ts",
+        "out/**"
     ]
 }

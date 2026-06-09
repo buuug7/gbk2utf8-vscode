@@ -1,36 +1,63 @@
 import { workspace } from "vscode";
+import {
+  DEFAULT_IGNORE_EXTENSIONS,
+  DEFAULT_IGNORE_DIRS,
+} from "./constants";
 
+/**
+ * User-configurable settings for the extension.
+ */
 export type ConfigType = {
+  /** Auto detect file encoding on open */
   autoDetect: boolean;
+  /** Comma-separated file extensions to ignore */
   ignoreExtensions: string[];
+  /** Comma-separated directory names to ignore */
   ignoreDir: string[];
-  neededConvertCharset: string[];
+  /** Show report after batch conversion */
   showBatchReport: boolean;
-  isBatch: boolean
+  /** Chinese-related encodings that should be converted */
+  neededConvertCharset: string[];
 };
 
-// get user custom config
+/**
+ * Splits a comma-separated config string into a trimmed array.
+ * Handles "git,ts,vue" → ["git", "ts", "vue"] and " git , ts " → ["git", "ts"].
+ */
+function splitAndTrim(value: string): string[] {
+  return value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Loads the user's extension configuration from VS Code settings.
+ */
 export function getUserConfig(): ConfigType {
   const config = workspace.getConfiguration("GBK2UTF8");
-  const _ignoreExt = config.get<string>("ignoreExtensions");
-  const _ignoreDir = config.get<string>("ignoreDir");
 
   return {
-    // auto detect file encoding with GBK related.
-    autoDetect: config.get<boolean>("autoDetect") as boolean,
+    autoDetect: config.get<boolean>("autoDetect", true),
 
-    // ignore the specified file extensions, separated by comma.
-    ignoreExtensions: _ignoreExt ? _ignoreExt.split(",") : config.ignoreExtensions,
+    ignoreExtensions: splitAndTrim(
+      config.get<string>("ignoreExtensions", DEFAULT_IGNORE_EXTENSIONS)
+    ),
 
-    // ignore the specified directory, separated by comma.
-    ignoreDir: _ignoreDir ? _ignoreDir.split(",") : [],
+    ignoreDir: splitAndTrim(
+      config.get<string>("ignoreDir", DEFAULT_IGNORE_DIRS)
+    ),
 
-    // Traditional and Simplified Chinese
-    neededConvertCharset: ["Big5", "GB2312", "GB18030", "EUC-TW", "HZ-GB-2312", "ISO-2022-CN"],
+    showBatchReport: config.get<boolean>("showBatchReport", true),
 
-    // When batch convert encoding, show convert report result.
-    showBatchReport: config.get<boolean>("showBatchReport") as boolean,
-
-    isBatch: false,
+    // Traditional and Simplified Chinese encodings that trigger conversion
+    neededConvertCharset: [
+      "Big5",
+      "GB2312",
+      "GB18030",
+      "EUC-TW",
+      "HZ-GB-2312",
+      "ISO-2022-CN",
+    ],
   };
 }
