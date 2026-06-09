@@ -28,6 +28,14 @@
 				"reveal": "never"
 			},
 			"group": "build"
+		},
+		{
+			"type": "npm",
+			"script": "compile",
+			"group": "build",
+			"presentation": {
+				"reveal": "never"
+			}
 		}
 	]
 }
