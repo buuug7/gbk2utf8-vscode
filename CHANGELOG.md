@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.7.0 - 2026/06/09
+
+- refactor: modularize extension with clean architecture and proper types
+- feat: add file backup before conversion (`.bak.` + timestamp)
+- feat: add editor context menu support
+- feat: add batch convert command (silent mode)
+- feat: improve conversion report with summary stats and encoding distribution
+- fix: resolve F5 debug startup issue (upgrade webpack to 5.107+)
+- docs: add README in both Chinese and English
+- docs: add CLAUDE.md with project documentation
+
 ## 0.6.0 - 2020/07/17
 
 - update batch encoding support nested folders
