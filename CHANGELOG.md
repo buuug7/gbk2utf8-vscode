@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.2 - 2026/06/09
+
+- feat: update extension icons
+
 ## 0.7.1 - 2026/06/09
 
 - fix: replace shield.io badges with vsmarketplacebadges.dev due to incorrect "retired" status
