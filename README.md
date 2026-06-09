@@ -1,4 +1,4 @@
-# GBK to UTF8 for vscode
+# GBK to UTF8 for VS Code
 
 <p>
     <a href="https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8">
@@ -15,39 +15,94 @@
     </a>
 </p>
 
-用来把 GBK 相关编码文件转换为 UTF8 的 vscode 插件, 并且具有批量转换文件编码的功能。
+将 GBK 相关编码（GB2312、GB18030、Big5 等）的文件自动检测并转换为 UTF-8 编码的 VS Code 扩展，支持单文件和批量转换。
 
-[English readme](./README_EN.md)
+---
+
+## Features
+
+- ✨ **自动检测** — 打开文件时自动检测编码，发现 GBK 相关编码时提示转换
+- 📁 **批量转换** — 选中多个文件或文件夹，右键一键批量转换为 UTF-8
+- 📊 **转换报告** — 批量转换后自动生成 Markdown 格式的转换结果报告
+- 🔧 **可配置** — 支持自定义忽略目录和文件扩展名
+- 🔒 **文件备份** — 转换前自动备份原文件，文件名追加 `.bak.` + 时间戳
+- 🚫 **智能跳过** — 自动跳过已配置的忽略目录和扩展名
 
 ## 安装
 
-键入`ctrl + p`, 输入 `ext install buuug7.GBK2UTF8` 安装, 或者在扩展市场中搜索 **gbk, gbk utf8** 等关键字来安装.
+### 从 VS Code 市场安装
 
-## 用法
+打开 VS Code，按 `Ctrl + P`，输入以下命令安装：
 
-当从 vscode 中打开带有 GBK 相关编码文件的时候, 会自动弹出提示框提示是否转换. 或者你可以在命令面板中通过 **Convert encoding to UTF8** 命令手动转换。
+```
+ext install buuug7.GBK2UTF8
+```
 
-你还可以批量转换文件编码，选中左侧文件浏览树中的多个文件, 或者选择文件夹，右键单击并从上下文中选择 **Convert encoding to UTF8** 选项来批量转换。
+或者在扩展市场中搜索 **gbk**、**gbk2utf8** 等关键字安装。
 
-## 如何批量转换为 UTF8
+## 使用方法
 
-批量转换文件编码，选中左侧文件浏览树中的多个文件, 或者选择文件夹，右键单击并从上下文中选择**批量转换编码为 UTF8**选项。注意如果一次选择多个文件夹, 只会转换第一个文件夹中的文件. 批量转换的时候会默认生成转换结果报告文件, 你可以通过设置`GBK2UTF8.showBatchReport: false` 禁止这种行为.
+### 右键菜单
 
-## Support Charset
+文件浏览树右键或者编辑器内右键, 在弹出的菜单中选择 **Convert Encoding To UTF8** 将文件转换成 UTF8 编码.
 
-插件使用了 [jschardet](https://github.com/aadsm/jschardet) 来检测文件编码, 支持以下几种类型的中文简繁体编码.
+### 通过命令
 
-- `Big5`
-- `GB2312`
-- `GB18030`
-- `EUC-TW`
-- `HZ-GB-2312`
-- `ISO-2022-CN`
+通过命令面板（`Ctrl + Shift + P`）执行：
 
-## Settings
+```
+GBK2UTF8: Convert Encoding To UTF8
+```
 
-The `GBK2UTF8.autoDetect` is set to `true` default, if you want to disable the autoDetect GBK related files,
-set `false` in the user and workspace settings under Extensions -> GBK2UTF8 section.
+### 自动转换
+
+当打开一个 GBK 相关编码的文件时，VS Code 右下角会自动弹出提示框：
+
+> Seems the encoding of **filename** is GB2312, do you want to convert it to UTF8?
+
+点击 **Yes** 即可转换，当前文件会被转换为 UTF8 编码。
+
+### 批量转换
+
+在文件资源管理器中：
+
+1. 选中多个文件或文件夹
+2. **右键** → **Convert Encoding To UTF8**（自动检测，单文件会弹确认框）
+
+> 如果选择了多个文件夹，只会转换第一个文件夹中的文件。
+
+批量转换完成后，会自动在工作区根目录生成一份 Markdown 报告文件：
+
+```
+GBK2UTF8-result-2026-06-09T15-30-22.md
+```
+
+### 文件备份
+
+每次转换前，原始文件会在同级目录自动备份，文件名格式：
+
+```
+原始文件.txt → 原始文件.txt.bak.2026-06-09T15-30-22
+```
+
+## 支持检测的编码
+
+使用 [jschardet](https://github.com/aadsm/jschardet) 库检测编码，支持以下中文编码：
+
+| 编码          | 说明                     |
+| ------------- | ------------------------ |
+| `GB2312`      | 简体中文（国家标准）     |
+| `GB18030`     | 简体中文扩展（含生僻字） |
+| `Big5`        | 繁体中文                 |
+| `EUC-TW`      | 繁体中文（台湾）         |
+| `HZ-GB-2312`  | 简体中文（邮件安全编码） |
+| `ISO-2022-CN` | 简体中文（ISO 标准）     |
+
+## 配置
+
+在 VS Code 设置中搜索 `GBK2UTF8`，或在 `settings.json` 中配置：
+
+### 自动检测开关
 
 ```json
 {
@@ -55,8 +110,9 @@ set `false` in the user and workspace settings under Extensions -> GBK2UTF8 sect
 }
 ```
 
-The `GBK2UTF8.ignoreExtensions` is set to `git,ts,vue` default, if you want add more ignore file extensions, please set
-it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+默认开启。关闭后不再自动检测和提示转换。
+
+### 忽略文件扩展名
 
 ```json
 {
@@ -64,8 +120,9 @@ it separated by comma in the user and workspace settings under Extensions -> GBK
 }
 ```
 
-The `GBK2UTF8.ignoreDir` is set to `node_modules,.vscode,.idea,.vscode-test,.github` default, if you want add more
-ignore directory, set it separated by comma in the user and workspace settings under Extensions -> GBK2UTF8 section.
+逗号分隔，匹配这些扩展名的文件不会被检测和转换。
+
+### 忽略目录
 
 ```json
 {
@@ -73,8 +130,9 @@ ignore directory, set it separated by comma in the user and workspace settings u
 }
 ```
 
-The `GBK2UTF8.showBatchReport` is set to `true` default, show convert report result when batch convert encoding, show
-convert report result.
+逗号分隔，匹配这些目录名（全路径包含即忽略）的目录不会被递归遍历。
+
+### 批量转换报告
 
 ```json
 {
@@ -82,9 +140,24 @@ convert report result.
 }
 ```
 
-please `reload the window` after the settings is being change, make sure the setting are take effect.
+批量转换完成后是否自动生成并打开 Markdown 报告文件。
 
-## Contribution
+> 修改设置后建议**重新加载窗口**使配置生效。
 
-If you're interested in contributing to, fork the [repo](https://github.com/buuug7/gbk2utf8-vscode.git) and submit pull
-requests.
+## 变更日志
+
+详见 [CHANGELOG.md](./CHANGELOG.md)。
+
+## 贡献
+
+欢迎贡献代码或提交 Issue！
+
+- Fork [项目仓库](https://github.com/buuug7/gbk2utf8-vscode.git)
+- 创建特性分支：`git checkout -b feature/my-feature`
+- 提交改动：`git commit -am 'Add some feature'`
+- 推送分支：`git push origin feature/my-feature`
+- 提交 Pull Request
+
+## 许可
+
+[MIT](./LICENSE)

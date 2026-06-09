@@ -71,6 +71,7 @@ src/
         ├── index.ts          # Mocha test index
         └── extension.test.ts # Extension tests
 ```
+
 ```
 
 ### Key Functions
@@ -97,14 +98,16 @@ Supported charsets for conversion: `Big5`, `GB2312`, `GB18030`, `EUC-TW`, `HZ-GB
 
 ## Commands
 
-- **`GBK2UTF8.convert`** (title: "Convert encoding to UTF8") — available in command palette and explorer context menu
+- **`GBK2UTF8.convert`** (title: "Convert Encoding To UTF8") — available in command palette and explorer context menu
 
 ## Commit Convention
 
 Commit messages must end with the following sign-off line:
 
 ```
+
 Co-Authored-By: deepseek-v4-flash
+
 ```
 
 ## Known Issues / Notes
@@ -113,3 +116,4 @@ Co-Authored-By: deepseek-v4-flash
 - Tests use `vscode-test` (superseded by `@vscode/test-electron` in newer projects)
 - `eslint` is available but lint config is minimal
 - The test suite only has a sample test — real test coverage is limited
+```

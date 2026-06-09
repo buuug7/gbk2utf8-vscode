@@ -39,7 +39,7 @@
       {
         "command": "GBK2UTF8.convert",
         "category": "GBK2UTF8",
-        "title": "Convert encoding to UTF8"
+        "title": "Convert Encoding To UTF8"
       }
     ],
     "menus": {
@@ -68,7 +68,7 @@
           },
           "GBK2UTF8.ignoreExtensions": {
             "type": "string",
-            "default": "git,ts,vue",
+            "default": "git,ts",
             "description": "Ignore the specified file extensions, separated by comma."
           },
           "GBK2UTF8.ignoreDir": {
