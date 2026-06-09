@@ -5,6 +5,7 @@ import { detectEncoding } from "./services/encodingDetector";
 import { convertToUtf8 } from "./services/converter";
 import { DETECTABLE_CHARSETS } from "./constants";
 import type { ConversionContext } from "./types";
+import { backupOriginal } from "./utils/backup";
 
 export function deactivate(): void {
   // No cleanup needed
@@ -48,6 +49,7 @@ export function activate(context: ExtensionContext): void {
         const answer = await window.showInformationMessage(message, "Yes", "No");
 
         if (answer === "Yes") {
+          await backupOriginal(fsPath);
           const content = await convertToUtf8(fsPath, encoding);
           await workspace.fs.writeFile(document.uri, Buffer.from(content));
         }

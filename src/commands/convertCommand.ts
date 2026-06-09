@@ -11,6 +11,7 @@ import { collectFiles } from "../services/fileCollector";
 import { detectEncoding } from "../services/encodingDetector";
 import { convertToUtf8 } from "../services/converter";
 import { writeReport } from "../utils/reportWriter";
+import { backupOriginal } from "../utils/backup";
 import { DETECTABLE_CHARSETS } from "../constants";
 import type { ConvertResult, ConversionContext } from "../types";
 
@@ -100,8 +101,9 @@ async function processFile(
   }
 
   if (ctx.isBatch) {
-    // Batch mode: convert silently
+    // Batch mode: backup then convert silently
     const content = await convertToUtf8(fsPath, encoding);
+    await backupOriginal(fsPath);
     await workspace.fs.writeFile(uri, Buffer.from(content));
     return { uri, encoding, confidence, changed: true };
   }
@@ -113,6 +115,7 @@ async function processFile(
 
   if (answer === "Yes") {
     const content = await convertToUtf8(fsPath, encoding);
+    await backupOriginal(fsPath);
     await workspace.fs.writeFile(uri, Buffer.from(content));
     return { uri, encoding, confidence, changed: true };
   }
