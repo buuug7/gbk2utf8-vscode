@@ -48,6 +48,12 @@
           "group": "GBK2UTF8",
           "command": "GBK2UTF8.convert"
         }
+      ],
+      "editor/context": [
+        {
+          "group": "GBK2UTF8",
+          "command": "GBK2UTF8.convert"
+        }
       ]
     },
     "configuration": [
