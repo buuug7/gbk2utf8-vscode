@@ -2,16 +2,16 @@
 
 <p>
     <a href="https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8">
-        <img src="https://img.shields.io/visual-studio-marketplace/v/buuug7.gbk2utf8" alt="version">
+        <img src="https://vsmarketplacebadges.dev/version-short/buuug7.gbk2utf8.png" alt="version">
     </a>
     <a href="https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8">
-        <img src="https://img.shields.io/visual-studio-marketplace/i/buuug7.gbk2utf8" alt="installs">
+        <img src="https://vsmarketplacebadges.dev/installs-short/buuug7.gbk2utf8.png" alt="installs">
     </a>
     <a href="https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8">
-        <img src="https://img.shields.io/visual-studio-marketplace/d/buuug7.gbk2utf8" alt="downloads">
+        <img src="https://vsmarketplacebadges.dev/downloads-short/buuug7.gbk2utf8.png" alt="downloads">
     </a>
     <a href="https://marketplace.visualstudio.com/items?itemName=buuug7.gbk2utf8">
-        <img src="https://img.shields.io/visual-studio-marketplace/r/buuug7.gbk2utf8" alt="rating">
+        <img src="https://vsmarketplacebadges.dev/rating-short/buuug7.gbk2utf8.png" alt="rating">
     </a>
 </p>
 

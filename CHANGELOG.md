@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.1 - 2026/06/09
+
+- fix: replace shield.io badges with vsmarketplacebadges.dev due to incorrect "retired" status
+
 ## 0.7.0 - 2026/06/09
 
 - refactor: modularize extension with clean architecture and proper types
