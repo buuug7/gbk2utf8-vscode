@@ -76,7 +76,7 @@
           },
           "GBK2UTF8.ignoreDir": {
             "type": "string",
-            "default": "node_modules,.vscode,.idea,.vscode-test,.github",
+            "default": "node_modules,.vscode,.idea,.vscode-test,.github, .git",
             "description": "Ignore the specified directory, separated by comma."
           },
           "GBK2UTF8.showBatchReport": {

@@ -1,3 +1,4 @@
+import * as fs from "fs/promises";
 import {
   commands,
   ExtensionContext,
@@ -89,6 +90,14 @@ async function processFile(
   ctx: ConversionContext
 ): Promise<ConvertResult> {
   const fsPath = uri.fsPath;
+
+  // Skip virtual / non-existent files
+  try {
+    await fs.access(fsPath);
+  } catch {
+    return { uri, encoding: "unknown", confidence: 0, changed: false };
+  }
+
   let { encoding, confidence } = await detectEncoding(fsPath);
 
   // Skip files whose encoding is not in the detectable charset list

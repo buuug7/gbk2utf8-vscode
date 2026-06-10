@@ -1,3 +1,4 @@
+import * as fs from "fs/promises";
 import { ExtensionContext, workspace, window, Uri } from "vscode";
 import { getUserConfig } from "./config";
 import { registerConvertCommand } from "./commands/convertCommand";
@@ -24,15 +25,23 @@ export function activate(context: ExtensionContext): void {
           return;
         }
 
+        const fsPath = document.uri.fsPath;
+
+        // Skip virtual / non-existent files (e.g. git temp files, exthost paths)
+        try {
+          await fs.access(fsPath);
+        } catch {
+          return;
+        }
+
         const config = getUserConfig();
-        const { encoding, confidence } = await detectEncoding(document.uri.fsPath);
+        const { encoding, confidence } = await detectEncoding(fsPath);
 
         if (!DETECTABLE_CHARSETS.includes(encoding)) {
           return;
         }
 
         // Check ignore lists
-        const fsPath = document.uri.fsPath;
         const isDirIgnored = config.ignoreDir.some((dir) => fsPath.includes(dir));
         if (isDirIgnored) {
           return;
