@@ -16,8 +16,11 @@
   "keywords": [
     "gbk",
     "utf8",
+    "utf-8",
     "gbk utf8",
-    "gbk to utf8"
+    "gbk utf-8",
+    "gbk to utf8",
+    "gbk to utf-8"
   ],
   "activationEvents": [
     "onStartupFinished"
