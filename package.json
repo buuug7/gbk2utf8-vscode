@@ -6,7 +6,7 @@
   "icon": "media/icon-circle.png",
   "author": "buuug7",
   "license": "MIT",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "engines": {
     "vscode": "^1.58.0"
   },

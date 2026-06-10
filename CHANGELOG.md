@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.7.3 - 2026/06/10
+
+- fix: 跳过虚拟/不存在的文件路径，避免 detectEncoding 在 git temp 和 exthost 路径上报错
+- feat: 移除备份文件中的时间戳，恢复 `.bak` 命名方式
+- docs: 更新插件使用说明
+- feat: 更新 package.json 搜索关键词列表
+
 ## 0.7.2 - 2026/06/09
 
 - feat: update extension icons
