@@ -60,7 +60,7 @@ export function activate(context: ExtensionContext): void {
         if (answer === "Yes") {
           await backupOriginal(fsPath);
           const content = await convertToUtf8(fsPath, encoding);
-          await workspace.fs.writeFile(document.uri, Buffer.from(content));
+          await workspace.fs.writeFile(document.uri, new Uint8Array(Buffer.from(content)));
         }
       })
     );

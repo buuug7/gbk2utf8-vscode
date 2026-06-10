@@ -113,7 +113,7 @@ async function processFile(
     // Batch mode: backup then convert silently
     const content = await convertToUtf8(fsPath, encoding);
     await backupOriginal(fsPath);
-    await workspace.fs.writeFile(uri, Buffer.from(content));
+    await workspace.fs.writeFile(uri, new Uint8Array(Buffer.from(content)));
     return { uri, encoding, confidence, changed: true };
   }
 
@@ -125,7 +125,7 @@ async function processFile(
   if (answer === "Yes") {
     const content = await convertToUtf8(fsPath, encoding);
     await backupOriginal(fsPath);
-    await workspace.fs.writeFile(uri, Buffer.from(content));
+    await workspace.fs.writeFile(uri, new Uint8Array(Buffer.from(content)));
     return { uri, encoding, confidence, changed: true };
   }
 
