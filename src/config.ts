@@ -16,8 +16,6 @@ export type ConfigType = {
   ignoreDir: string[];
   /** Show report after batch conversion */
   showBatchReport: boolean;
-  /** Chinese-related encodings that should be converted */
-  neededConvertCharset: string[];
 };
 
 /**
@@ -49,15 +47,5 @@ export function getUserConfig(): ConfigType {
     ),
 
     showBatchReport: config.get<boolean>("showBatchReport", true),
-
-    // Traditional and Simplified Chinese encodings that trigger conversion
-    neededConvertCharset: [
-      "Big5",
-      "GB2312",
-      "GB18030",
-      "EUC-TW",
-      "HZ-GB-2312",
-      "ISO-2022-CN",
-    ],
   };
 }

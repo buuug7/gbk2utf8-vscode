@@ -8,6 +8,8 @@ export interface ConvertResult {
   encoding: string;
   confidence: number;
   changed: boolean;
+  /** Set when the file could not be converted; contains the error message. */
+  error?: string;
 }
 
 /**

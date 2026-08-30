@@ -16,9 +16,10 @@ export async function writeReport(results: ConvertResult[], rootUri: Uri): Promi
   }
 
   const converted = results.filter((r) => r.changed);
-  const notConverted = results.filter((r) => !r.changed);
+  const failed = results.filter((r) => r.error);
+  const notConverted = results.filter((r) => !r.changed && !r.error);
 
-  const content = buildReportContent(results, converted, notConverted);
+  const content = buildReportContent(results, converted, notConverted, failed);
 
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
   const fileName = `${EXTENSION_NAME}-result-${timestamp}.md`;
@@ -39,7 +40,8 @@ export async function writeReport(results: ConvertResult[], rootUri: Uri): Promi
 function buildReportContent(
   results: ConvertResult[],
   converted: ConvertResult[],
-  notConverted: ConvertResult[]
+  notConverted: ConvertResult[],
+  failed: ConvertResult[]
 ): string {
   const lines: string[] = [];
   const total = results.length;
@@ -59,6 +61,7 @@ function buildReportContent(
   lines.push(`| Total files | ${total} |`);
   lines.push(`| Converted | ${converted.length} |`);
   lines.push(`| Skipped | ${notConverted.length} |`);
+  lines.push(`| Failed | ${failed.length} |`);
   lines.push(`| Success rate | ${successRate}% |`);
   lines.push("");
 
@@ -81,6 +84,16 @@ function buildReportContent(
     lines.push("");
     for (const item of converted) {
       lines.push(formatFileLine(item));
+    }
+    lines.push("");
+  }
+
+  // Failed files
+  if (failed.length > 0) {
+    lines.push("## Failed Files");
+    lines.push("");
+    for (const item of failed) {
+      lines.push(`- \`${item.uri.fsPath}\` — ${item.error}`);
     }
     lines.push("");
   }

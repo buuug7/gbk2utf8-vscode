@@ -41,6 +41,7 @@ async function convertWithProgress(
       }
 
       const results: ConvertResult[] = [];
+      let failed = 0;
 
       for (let i = 0; i < files.length; i++) {
         const uri = files[i];
@@ -50,11 +51,28 @@ async function convertWithProgress(
           increment: Math.round((1 / files.length) * 100),
         });
 
-        const result = await processFile(uri, config, context);
-        results.push(result);
+        try {
+          const result = await processFile(uri, config, context);
+          results.push(result);
+        } catch (err) {
+          failed++;
+          results.push({
+            uri,
+            encoding: "error",
+            confidence: 0,
+            changed: false,
+            error: err instanceof Error ? err.message : String(err),
+          });
+        }
       }
 
       progress.report({ message: "done" });
+
+      if (failed > 0) {
+        window.showWarningMessage(
+          `${failed} of ${files.length} file(s) failed to convert, skipped. See the report for details.`
+        );
+      }
 
       if (config.showBatchReport && context.isBatch) {
         const rootFolder = workspace.workspaceFolders?.[0]?.uri;

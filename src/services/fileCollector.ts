@@ -35,7 +35,10 @@ export async function collectFiles(
 
   // Single file via editor (command palette, no selection)
   if (!selectedFiles && editor) {
-    collected.push(editor.document.uri);
+    const uri = editor.document.uri;
+    if (!isExtensionIgnored(path.basename(uri.fsPath), config.ignoreExtensions)) {
+      collected.push(uri);
+    }
     return { files: collected, context: { isBatch: false } };
   }
 
@@ -53,7 +56,9 @@ export async function collectFiles(
   } else {
     // Multiple files selected
     for (const item of selectedFiles) {
-      collected.push(item);
+      if (!isExtensionIgnored(path.basename(item.fsPath), config.ignoreExtensions)) {
+        collected.push(item);
+      }
     }
   }
 
