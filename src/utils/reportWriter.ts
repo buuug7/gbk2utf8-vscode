@@ -1,6 +1,6 @@
 import * as fs from "fs/promises";
 import * as path from "path";
-import { workspace, window, Uri } from "vscode";
+import { commands, workspace, Uri } from "vscode";
 import type { ConvertResult } from "../types";
 import { EXTENSION_NAME } from "../constants";
 
@@ -19,16 +19,18 @@ export async function writeReport(results: ConvertResult[], rootUri: Uri): Promi
   const failed = results.filter((r) => r.error);
   const notConverted = results.filter((r) => !r.changed && !r.error);
 
-  const content = buildReportContent(results, converted, notConverted, failed);
+  const reportDir = rootUri.fsPath;
+  const content = buildReportContent(results, converted, notConverted, failed, reportDir);
 
   const timestamp = formatTimestamp(new Date());
   const fileName = `${EXTENSION_NAME}-result-${timestamp.replace(/:/g, "-")}.md`;
-  const filePath = path.join(rootUri.fsPath, fileName);
+  const filePath = path.join(reportDir, fileName);
 
   try {
     await fs.writeFile(filePath, content, "utf-8");
     const doc = await workspace.openTextDocument(filePath);
-    await window.showTextDocument(doc);
+    // Open the report in the Markdown preview so file links are clickable.
+    await commands.executeCommand("markdown.showPreviewToSide", doc.uri);
   } catch (err) {
     console.error(`Failed to write report file "${filePath}":`, err);
   }
@@ -41,7 +43,8 @@ function buildReportContent(
   results: ConvertResult[],
   converted: ConvertResult[],
   notConverted: ConvertResult[],
-  failed: ConvertResult[]
+  failed: ConvertResult[],
+  reportDir: string
 ): string {
   const lines: string[] = [];
   const total = results.length;
@@ -83,7 +86,7 @@ function buildReportContent(
     lines.push("## Converted Files");
     lines.push("");
     for (const item of converted) {
-      lines.push(formatFileLine(item));
+      lines.push(formatFileLine(item, reportDir));
     }
     lines.push("");
   }
@@ -93,7 +96,7 @@ function buildReportContent(
     lines.push("## Failed Files");
     lines.push("");
     for (const item of failed) {
-      lines.push(`- \`${item.uri.fsPath}\` — ${item.error}`);
+      lines.push(`- ${relativePathLink(item.uri.fsPath, reportDir)} — ${item.error}`);
     }
     lines.push("");
   }
@@ -103,7 +106,7 @@ function buildReportContent(
     lines.push("## Skipped Files");
     lines.push("");
     for (const item of notConverted) {
-      lines.push(formatFileLine(item));
+      lines.push(formatFileLine(item, reportDir));
     }
     lines.push("");
   }
@@ -125,11 +128,19 @@ function formatTimestamp(date: Date): string {
 }
 
 /**
- * Formats a single result as a markdown list item.
+ * Formats a single result as a markdown list item, linking the file.
  */
-function formatFileLine(item: ConvertResult): string {
-  const fileName = item.uri.path.split("/").pop() || item.uri.fsPath;
-  return `- \`[${item.encoding}/${item.confidence}]\` ${fileName} — \`${item.uri.fsPath}\``;
+function formatFileLine(item: ConvertResult, reportDir: string): string {
+  return `- \`[${item.encoding}/${item.confidence}]\` ${relativePathLink(item.uri.fsPath, reportDir)}`;
+}
+
+/**
+ * Builds a markdown link to `fsPath`, relative to the report directory so it
+ * opens the file when clicked in the report's markdown preview.
+ */
+function relativePathLink(fsPath: string, reportDir: string): string {
+  const rel = path.relative(reportDir, fsPath).replace(/\\/g, "/");
+  return `[${rel}](${encodeURI(rel)})`;
 }
 
 /**
