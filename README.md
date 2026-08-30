@@ -53,7 +53,7 @@
 
 > 注意:同时选中多个文件夹时,仅处理第一个文件夹中的文件.
 
-批量转换完成后,会在工作区根目录自动生成报告文件 `GBK2UTF8-result-2026-06-09T15-30-22.md`
+批量转换完成后,会在工作区根目录自动生成报告文件 `GBK2UTF8-result-2026-06-09 15-30-22.md`
 
 ### 文件备份
 
@@ -87,7 +87,7 @@
 
 ```json
 {
-  "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github"
+  "GBK2UTF8.ignoreDir": "node_modules,.vscode,.idea,.vscode-test,.github,.git"
 }
 ```
 

@@ -12,7 +12,7 @@ export const DEFAULT_IGNORE_EXTENSIONS =
 /**
  * Default ignore directories (comma-separated string matching the config default).
  */
-export const DEFAULT_IGNORE_DIRS = "node_modules,.vscode,.idea,.vscode-test,.github";
+export const DEFAULT_IGNORE_DIRS = "node_modules,.vscode,.idea,.vscode-test,.github,.git";
 
 /**
  * Number of bytes to sample from the head of a file for encoding detection.

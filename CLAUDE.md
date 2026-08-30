@@ -45,8 +45,7 @@ Debug config is in [.vscode/launch.json](.vscode/launch.json):
 ### Package for Marketplace
 
 ```bash
-npm run package       # webpack --mode production
-vsce package          # create .vsix file
+npm run package       # create .vsix file (runs vsce package)
 ```
 
 ## Source Code Structure
@@ -89,7 +88,7 @@ Settings under `GBK2UTF8.*` namespace, defined in [package.json](package.json#L5
 | ------------------ | ------- | ------------------------------------------------- | ---------------------------------- |
 | `autoDetect`       | boolean | `true`                                            | Auto detect file encoding on open  |
 | `ignoreExtensions` | string  | `git,bak,zip,rar,7z,gz,tar,jpg,jpeg,png,gif,bmp,ico,webp,mp3,mp4,avi,mkv,wav,flac,exe,dll,so,pdf,doc,docx,xls,xlsx,ppt,pptx,ttf,otf,sqlite` | Comma-separated extensions to skip |
-| `ignoreDir`        | string  | `node_modules,.vscode,.idea,.vscode-test,.github` | Comma-separated dirs to skip       |
+| `ignoreDir`        | string  | `node_modules,.vscode,.idea,.vscode-test,.github,.git` | Comma-separated dirs to skip       |
 | `showBatchReport`  | boolean | `true`                                            | Show report after batch conversion |
 
 Supported charsets for conversion: `Big5`, `GB2312`, `GB18030`, `EUC-TW`, `HZ-GB-2312`, `ISO-2022-CN`
@@ -116,6 +115,6 @@ Release process (run these steps in order):
 3. **Commit** — `git add -A && git commit -m "chore: bump version to X.Y.Z"`
 4. **Tag** — `git tag vX.Y.Z`
 5. **Push** — `git push && git push --tags`
-6. **Package VSIX** — `npx vsce package` (produces `your-notes-X.Y.Z.vsix`)
-7. **GitHub Release** — Go to https://github.com/buuug7/your-notes/releases/new, select the tag, fill title, paste CHANGELOG content, **upload the `.vsix` file** as asset, click "Publish release"
+6. **Package VSIX** — `npm run package` (produces `GBK2UTF8-X.Y.Z.vsix`)
+7. **GitHub Release** — Go to https://github.com/buuug7/gbk2utf8-vscode/releases/new, select the tag, fill title, paste CHANGELOG content, **upload the `.vsix` file** as asset, click "Publish release"
 8. **Marketplace Publish** — `npm run publish` (runs `vsce publish`, pushes to VS Code Marketplace)
