@@ -88,7 +88,7 @@ Settings under `GBK2UTF8.*` namespace, defined in [package.json](package.json#L5
 | Setting            | Type    | Default                                           | Description                        |
 | ------------------ | ------- | ------------------------------------------------- | ---------------------------------- |
 | `autoDetect`       | boolean | `true`                                            | Auto detect file encoding on open  |
-| `ignoreExtensions` | string  | `git,ts,vue`                                      | Comma-separated extensions to skip |
+| `ignoreExtensions` | string  | `git,bak,zip,rar,7z,gz,tar,jpg,jpeg,png,gif,bmp,ico,webp,mp3,mp4,avi,mkv,wav,flac,exe,dll,so,pdf,doc,docx,xls,xlsx,ppt,pptx,ttf,otf,sqlite` | Comma-separated extensions to skip |
 | `ignoreDir`        | string  | `node_modules,.vscode,.idea,.vscode-test,.github` | Comma-separated dirs to skip       |
 | `showBatchReport`  | boolean | `true`                                            | Show report after batch conversion |
 

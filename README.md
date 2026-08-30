@@ -77,7 +77,7 @@
 
 ```json
 {
-  "GBK2UTF8.ignoreExtensions": "git,ts,vue"
+  "GBK2UTF8.ignoreExtensions": "git,bak,zip,rar,7z,gz,tar,jpg,jpeg,png,gif,bmp,ico,webp,mp3,mp4,avi,mkv,wav,flac,exe,dll,so,pdf,doc,docx,xls,xlsx,ppt,pptx,ttf,otf,sqlite"
 }
 ```
 

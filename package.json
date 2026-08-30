@@ -71,7 +71,7 @@
           },
           "GBK2UTF8.ignoreExtensions": {
             "type": "string",
-            "default": "git,ts",
+            "default": "git,bak,zip,rar,7z,gz,tar,jpg,jpeg,png,gif,bmp,ico,webp,mp3,mp4,avi,mkv,wav,flac,exe,dll,so,pdf,doc,docx,xls,xlsx,ppt,pptx,ttf,otf,sqlite",
             "description": "Ignore the specified file extensions, separated by comma."
           },
           "GBK2UTF8.ignoreDir": {

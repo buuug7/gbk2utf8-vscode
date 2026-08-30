@@ -6,7 +6,8 @@ export const EXTENSION_NAME = "GBK2UTF8";
 /**
  * Default ignore file extensions (comma-separated string matching the config default).
  */
-export const DEFAULT_IGNORE_EXTENSIONS = "git,ts,vue";
+export const DEFAULT_IGNORE_EXTENSIONS =
+  "git,bak,zip,rar,7z,gz,tar,jpg,jpeg,png,gif,bmp,ico,webp,mp3,mp4,avi,mkv,wav,flac,exe,dll,so,pdf,doc,docx,xls,xlsx,ppt,pptx,ttf,otf,sqlite";
 
 /**
  * Default ignore directories (comma-separated string matching the config default).

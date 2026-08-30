@@ -22,7 +22,7 @@ export type ConfigType = {
 
 /**
  * Splits a comma-separated config string into a trimmed array.
- * Handles "git,ts,vue" → ["git", "ts", "vue"] and " git , ts " → ["git", "ts"].
+ * Handles "zip,png" → ["zip", "png"] and " zip , png " → ["zip", "png"].
  */
 function splitAndTrim(value: string): string[] {
   return value
