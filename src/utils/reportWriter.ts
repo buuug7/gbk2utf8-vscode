@@ -21,8 +21,8 @@ export async function writeReport(results: ConvertResult[], rootUri: Uri): Promi
 
   const content = buildReportContent(results, converted, notConverted, failed);
 
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-  const fileName = `${EXTENSION_NAME}-result-${timestamp}.md`;
+  const timestamp = formatTimestamp(new Date());
+  const fileName = `${EXTENSION_NAME}-result-${timestamp.replace(/:/g, "-")}.md`;
   const filePath = path.join(rootUri.fsPath, fileName);
 
   try {
@@ -50,7 +50,7 @@ function buildReportContent(
   // Header
   lines.push(`# Conversion Report`);
   lines.push("");
-  lines.push(`> Generated at ${new Date().toLocaleString()}`);
+  lines.push(`> Generated at ${formatTimestamp(new Date())}`);
   lines.push("");
 
   // Summary
@@ -109,6 +109,19 @@ function buildReportContent(
   }
 
   return lines.join("\n");
+}
+
+/**
+ * Formats a date as a local-time `yyyy-mm-dd HH:mm:ss` string.
+ */
+function formatTimestamp(date: Date): string {
+  const pad = (n: number): string => String(n).padStart(2, "0");
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+  return `${date.getFullYear()}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 /**
