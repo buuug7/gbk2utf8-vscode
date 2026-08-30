@@ -72,8 +72,6 @@ src/
         └── extension.test.ts # Extension tests
 ```
 
-```
-
 ### Key Functions
 
 - **`activate(context)`** ([src/extension.ts](src/extension.ts)) — registers `GBK2UTF8.convert` command; if `autoDetect` is enabled, hooks `onDidOpenTextDocument` for auto-conversion
@@ -87,12 +85,12 @@ src/
 
 Settings under `GBK2UTF8.*` namespace, defined in [package.json](package.json#L53-L80):
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| `autoDetect` | boolean | `true` | Auto detect file encoding on open |
-| `ignoreExtensions` | string | `git,ts,vue` | Comma-separated extensions to skip |
-| `ignoreDir` | string | `node_modules,.vscode,.idea,.vscode-test,.github` | Comma-separated dirs to skip |
-| `showBatchReport` | boolean | `true` | Show report after batch conversion |
+| Setting            | Type    | Default                                           | Description                        |
+| ------------------ | ------- | ------------------------------------------------- | ---------------------------------- |
+| `autoDetect`       | boolean | `true`                                            | Auto detect file encoding on open  |
+| `ignoreExtensions` | string  | `git,ts,vue`                                      | Comma-separated extensions to skip |
+| `ignoreDir`        | string  | `node_modules,.vscode,.idea,.vscode-test,.github` | Comma-separated dirs to skip       |
+| `showBatchReport`  | boolean | `true`                                            | Show report after batch conversion |
 
 Supported charsets for conversion: `Big5`, `GB2312`, `GB18030`, `EUC-TW`, `HZ-GB-2312`, `ISO-2022-CN`
 
@@ -100,20 +98,9 @@ Supported charsets for conversion: `Big5`, `GB2312`, `GB18030`, `EUC-TW`, `HZ-GB
 
 - **`GBK2UTF8.convert`** (title: "Convert Encoding To UTF8") — available in command palette and explorer context menu
 
-## Commit Convention
-
-Commit messages must end with the following sign-off line:
-
-```
-
-Co-Authored-By: deepseek-v4-flash
-
-```
-
 ## Known Issues / Notes
 
 - The project uses Node.js 20+ with webpack 5.107+ (upgraded from 5.44 to fix `ERR_OSSL_EVP_UNSUPPORTED`)
 - Tests use `vscode-test` (superseded by `@vscode/test-electron` in newer projects)
 - `eslint` is available but lint config is minimal
 - The test suite only has a sample test — real test coverage is limited
-```

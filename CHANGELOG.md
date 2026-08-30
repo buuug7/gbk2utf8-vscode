@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.8.0 - 2026/08/30
+
+- feat: 支持任意编码转换为 UTF-8,不再局限于中文编码,检测到非 UTF-8 编码即可转换
+- upgrade: 升级 jschardet 到 4.0.0-rc.2
+- fix: 提升编码检测准确性 — 采样从 512 字节提升为头部/尾部各 64KB,叠加确定性 UTF-8 / GB18030 严格解码校验,修复带 ASCII 前缀的 GBK 文件被误判为 latin/ascii 的问题
+- feat: 跳过已是 UTF-8 的文件;iconv-lite 不支持的编码跳过并提示
+- fix: Buffer 类型不匹配 Uint8Array<ArrayBufferLike> 类型错误
+
 ## 0.7.3 - 2026/06/10
 
 - fix: 跳过虚拟/不存在的文件路径，避免 detectEncoding 在 git temp 和 exthost 路径上报错
