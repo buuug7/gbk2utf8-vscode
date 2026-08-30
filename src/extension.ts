@@ -3,8 +3,7 @@ import { ExtensionContext, workspace, window, Uri } from "vscode";
 import { getUserConfig } from "./config";
 import { registerConvertCommand } from "./commands/convertCommand";
 import { detectEncoding } from "./services/encodingDetector";
-import { convertToUtf8 } from "./services/converter";
-import { DETECTABLE_CHARSETS } from "./constants";
+import { convertToUtf8, canDecode, isAlreadyUtf8 } from "./services/converter";
 import type { ConversionContext } from "./types";
 import { backupOriginal } from "./utils/backup";
 
@@ -37,7 +36,8 @@ export function activate(context: ExtensionContext): void {
         const config = getUserConfig();
         const { encoding, confidence } = await detectEncoding(fsPath);
 
-        if (!DETECTABLE_CHARSETS.includes(encoding)) {
+        // Skip files that are already UTF-8, or that iconv-lite cannot decode.
+        if (isAlreadyUtf8(encoding) || !canDecode(encoding)) {
           return;
         }
 

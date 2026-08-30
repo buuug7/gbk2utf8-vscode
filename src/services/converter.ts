@@ -2,6 +2,25 @@ import * as fs from "fs";
 import * as iconv from "iconv-lite";
 
 /**
+ * Returns whether iconv-lite can decode from the given encoding.
+ */
+export function canDecode(encoding: string): boolean {
+  return iconv.encodingExists(encoding);
+}
+
+/**
+ * Encodings that are already UTF-8-compatible; converting them would be a no-op.
+ */
+const ALREADY_UTF8 = ["utf-8", "utf8", "ascii", "us-ascii"];
+
+/**
+ * Returns whether the encoding is already UTF-8 (or its ASCII subset).
+ */
+export function isAlreadyUtf8(encoding: string): boolean {
+  return ALREADY_UTF8.includes(encoding.toLowerCase());
+}
+
+/**
  * Reads a file and decodes its content from the given encoding to a UTF-8 string.
  *
  * Uses a streaming approach via iconv-lite, which is efficient for large files.

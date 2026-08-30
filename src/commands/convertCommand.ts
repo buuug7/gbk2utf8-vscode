@@ -1,29 +1,18 @@
 import * as fs from "fs/promises";
-import {
-  commands,
-  ExtensionContext,
-  ProgressLocation,
-  window,
-  workspace,
-  Uri,
-} from "vscode";
+import { commands, ExtensionContext, ProgressLocation, window, workspace, Uri } from "vscode";
 import { getUserConfig, ConfigType } from "../config";
 import { collectFiles } from "../services/fileCollector";
 import { detectEncoding } from "../services/encodingDetector";
-import { convertToUtf8 } from "../services/converter";
+import { canDecode, convertToUtf8, isAlreadyUtf8 } from "../services/converter";
 import { writeReport } from "../utils/reportWriter";
 import { backupOriginal } from "../utils/backup";
-import { DETECTABLE_CHARSETS } from "../constants";
 import type { ConvertResult, ConversionContext } from "../types";
 
 /**
  * Registers the "GBK2UTF8.convert" command with VS Code.
  */
 export function registerConvertCommand(context: ExtensionContext): void {
-  const disposable = commands.registerCommand(
-    "GBK2UTF8.convert",
-    convertWithProgress
-  );
+  const disposable = commands.registerCommand("GBK2UTF8.convert", convertWithProgress);
   context.subscriptions.push(disposable);
 }
 
@@ -45,11 +34,7 @@ async function convertWithProgress(
     async (progress) => {
       progress.report({ message: "collecting files..." });
 
-      const { files, context } = await collectFiles(
-        clickedFile,
-        selectedFiles,
-        config
-      );
+      const { files, context } = await collectFiles(clickedFile, selectedFiles, config);
 
       if (files.length === 0) {
         return;
@@ -84,11 +69,7 @@ async function convertWithProgress(
 /**
  * Processes a single file: detect encoding, optionally prompt user, convert if needed.
  */
-async function processFile(
-  uri: Uri,
-  config: ConfigType,
-  ctx: ConversionContext
-): Promise<ConvertResult> {
+async function processFile(uri: Uri, config: ConfigType, ctx: ConversionContext): Promise<ConvertResult> {
   const fsPath = uri.fsPath;
 
   // Skip virtual / non-existent files
@@ -98,12 +79,18 @@ async function processFile(
     return { uri, encoding: "unknown", confidence: 0, changed: false };
   }
 
-  let { encoding, confidence } = await detectEncoding(fsPath);
+  const { encoding, confidence } = await detectEncoding(fsPath);
 
-  // Skip files whose encoding is not in the detectable charset list
-  if (!DETECTABLE_CHARSETS.includes(encoding)) {
+  // Files already in UTF-8 (or its ASCII subset) need no conversion.
+  if (isAlreadyUtf8(encoding)) {
+    return { uri, encoding, confidence, changed: false };
+  }
+
+  // iconv-lite cannot decode some exotic encodings (e.g. ISO-2022-*); skip
+  // rather than crash the whole batch.
+  if (!canDecode(encoding)) {
     if (!ctx.isBatch) {
-      const message = `It seems that the file encoding(${encoding}) is not GBK related.`;
+      const message = `Encoding ${encoding} is not supported for conversion, skipped.`;
       window.showWarningMessage(message);
     }
     return { uri, encoding, confidence, changed: false };
@@ -119,7 +106,11 @@ async function processFile(
 
   // Single file mode: prompt the user
   const fileName = getFileName(uri);
-  const message = `Seems the encoding of **${fileName}** is ${encoding}, do you want to convert it to UTF8?`;
+
+  const message = `Seems the encoding of **${fileName}** is ${encoding} with ${
+    confidence * 100
+  }% confidence, do you want to convert it to utf-8?`;
+
   const answer = await window.showInformationMessage(message, "Yes", "No");
 
   if (answer === "Yes") {
