@@ -26,10 +26,10 @@
     "onStartupFinished"
   ],
   "scripts": {
-    "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
+    "package": "vsce package",
+    "publish": "vsce publish",
     "test-compile": "tsc -p ./",
     "test-watch": "tsc -watch -p ./",
     "pretest": "npm run test-compile && npm run lint",
@@ -92,6 +92,7 @@
     "jschardet": "4.0.0-rc.2"
   },
   "devDependencies": {
+    "@vscode/vsce": "^3.9.2",
     "@types/glob": "^7.1.4",
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.3.2",
