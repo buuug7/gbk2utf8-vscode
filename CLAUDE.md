@@ -104,3 +104,18 @@ Supported charsets for conversion: `Big5`, `GB2312`, `GB18030`, `EUC-TW`, `HZ-GB
 - Tests use `vscode-test` (superseded by `@vscode/test-electron` in newer projects)
 - `eslint` is available but lint config is minimal
 - The test suite only has a sample test — real test coverage is limited
+
+### Release & Publishing
+
+Release process (run these steps in order):
+
+1. **Changelog** — Update `CHANGELOG.md`: summarize all changes since the last release under a new version header. Follow the existing format (`## X.Y.Z (YYYY-MM-DD)` with emoji-prefixed sections).
+2. **Version bump** — Follow [semantic versioning](https://semver.org/):
+   - `package.json` → update `version` field
+   - `CHANGELOG.md` → ensure the version header matches
+3. **Commit** — `git add -A && git commit -m "chore: bump version to X.Y.Z"`
+4. **Tag** — `git tag vX.Y.Z`
+5. **Push** — `git push && git push --tags`
+6. **Package VSIX** — `npx vsce package` (produces `your-notes-X.Y.Z.vsix`)
+7. **GitHub Release** — Go to https://github.com/buuug7/your-notes/releases/new, select the tag, fill title, paste CHANGELOG content, **upload the `.vsix` file** as asset, click "Publish release"
+8. **Marketplace Publish** — `npm run publish` (runs `vsce publish`, pushes to VS Code Marketplace)

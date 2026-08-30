@@ -10,4 +10,5 @@ dist
 Thumbs.db
 *.log
 .vscode-test
+.claude
 
